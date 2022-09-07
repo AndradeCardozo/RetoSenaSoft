@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+<!-- Title -->
+{% block title %}Home{% endblock title %}
+
+<!-- Page content  -->
+{% block content %}
+    <div class="block-position">
+        <h1 class="text-light typed-text"> Hola
+            <span id="element" style="color: #8abaae"></span>
+        </h1>
+    </div>
+
+    <!-- Mesajes -->
+    <div>
+        <button style="background-color: #5ca08e;" class="btn text-light pulse" data-bs-toggle="modal" data-bs-target="#messageModal">
+            <i class="fas fa-envelope fa-2x"></i>
+        </button>
+    </div>
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% extends 'modals/baseModal.html' %}
+
+<!-- Modal ID -->
+{% block modal-id %} id="deleteModal{{custumer.pk}}" {% endblock modal-id %}
+
+<!-- Modal Title -->
+{% block modal-title %}
+<i class="fas fa-envelope"></i>&nbsp;&nbsp; Mensaje
+{% endblock modal-title %}
+
+<!-- Modal Body -->
+{% block modal-body %}
+<div class="text-center text-danger"><i class="fas fa-times-circle fa-5x mb-4"></i></div>
+<div class="text-center text-danger">
+    <span>Seguro que quieres eliminar?</span>
+    <div class="text-dark mt-3 mb-2">Customer: <strong>{{custumer.name}}</strong></div>
+</div>
+{% endblock modal-body %}
+
+<!-- Modal Footer -->
+{% block modal-footer %}
+<a href="/delete_message/{{custumer.id}}" class="btn btn-outline-danger btn-sm btn-modal">Eliminar</a>
+{% endblock modal-footer %}

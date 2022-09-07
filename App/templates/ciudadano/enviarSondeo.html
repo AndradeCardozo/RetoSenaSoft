@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+<!-- Block image -->
+{% block image %}{% endblock image %}
+
+
+
+<!-- Sidebar content -->
+{% block sidebar-content %}
+    <!-- Welcome user -->
+   <p class="text-center"> Bienvenido: <span class="text-success ">{{user.get_username}}</span></p>
+    &nbsp;
+    <a href="{% url 'ciudadano' %}" class="btn btn-secondary">Inicio</a>
+    <a href="{% url 'perfil' %}" class="btn btn-secondary">Perfil</a>
+    <a href="{% url 'sondeos' %}" class="btn btn-secondary"> Sondeos disponibles</a>
+    <a href="{% url 'sondeosrealizados' %}" class="btn btn-secondary">Sondeos Realizados</a>
+    <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar Sesion</a>
+{% endblock sidebar-content %}
+
+<!-- Page content  -->
+{% block content %}
+    &nbsp;
+    <div  class="container-fluid mt-3" style="width: 90%;">
+
+        <div>
+
+        </div>        
+    </div>
+{% endblock content %}

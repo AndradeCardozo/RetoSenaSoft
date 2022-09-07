@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+
+<!-- Block image -->
+{% block image %}{% endblock image %}
+
+
+
+<!-- Sidebar content -->
+{% block sidebar-content %}
+    <!-- Welcome user -->
+   <p class="text-center"> Bienvenido: <span class="text-success ">{{user.get_username}}</span></p>
+    &nbsp;
+    <a href="{% url 'inbox' %}" class="btn btn-secondary">Inicio</a>
+    <a href="{% url 'inbox' %}" class="btn btn-secondary">Crear Sondeo</a>
+    <a href="{% url 'inbox' %}" class="btn btn-secondary">Consultar Sondeo</a>
+    <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar Sesion</a>
+{% endblock sidebar-content %}
+
+<!-- Page content  -->
+{% block content %}
+    &nbsp;
+    <div  class="card container mt-3" style="width: 90%;">
+
+        <!-- Dashboard content -->
+        <div id="dashboard" class="hide">
+            {% include 'dashboard/dashboard.html' %}
+        </div>
+        &nbsp;
+
+        <!-- Buscador global -->
+        <form action="" id="global-search" class="hide">
+            <div class="input-group input-grou-sm mb-3">
+                <input type="text" name="q" class="form-control input-sm" placeholder="Buscador" value="{{ request.GET.q }}">
+                <button class="btn btn-secondary" title="buscar"><i class="fas fa-search"></i></button>
+                <a href="{% url 'inbox' %}" class="btn btn-dark" style="margin-left: 2px" title="Refrescar"><i class="fas fa-sync-alt"></i></a>
+            </div>
+        </form>
+
+        <!-- Tabla de mensajes -->
+
+        <div class="card">
+            <div class="col-lg-12 hide" >
+                <div>
+                    <table class="table">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th style="width: 25%">Nombre</th>
+                                <th style="width: 23%">Fecha</th>
+                                <th style="width: 15%">estado</th>
+                                <th style="width: 8%; text-align: center;" colspan="2">acción</th>
+                            </tr>
+                        </thead>
+                        <!-- Data del backend -->
+                        <tbody>
+                            {% for mensaje in mensajes %}
+                                <tr id="chk_td">
+                                    <td>{{mensaje.name}}</td>
+                                    <td>{{ mensaje.created_at | date:'m/d/y (H:i' }}</td>
+                                    {% if mensaje.estado == 'Pending'%}
+                                        <td class="text-danger">{{mensaje.estado}}</td>
+                                    {% else %}
+                                        <td class="text-success">{{mensaje.estado}}</td>
+                                    {% endif %}
+    
+                                    <td>
+                                        <button class="btn btn-secondary btn-sm btn-action" title="Eliminar mensaje" data-bs-toggle="modal" data-bs-target="#deleteModal{{mensaje.pk}}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn text-light btn-sm btn-action" title="leer mensaje" style="background-color: #2e856e">
+                                            <i class="fas fa-envelope"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                 
+                                <!-- MODAL PARA ELIMINAR REGISTRO -->
+                                {% include 'modals/delete.html' %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <nav>
+                {% if mensajes.has_other_pages %}
+                    <ul class="pagination">
+                        {% if mensajes.has_previous %}
+                            <a href="?page=1" class="btn btn-outline-secondary mb-4" style="border-radius: 1px; border: 1px solid #d3d3d3">Primero</a>
+                            <li class="page-item"><a href="?page={{costumers.previor_page_number}}" class="page-link"><i class="fas fa-angle-double-left"></i></a></li>
+                        {% else %}
+                            <li class="page-item disabled"></li>
+                        {% endif %}
+    
+                        {% for i in mensajes.paginator.page_range %}
+                            {% if mensajes.number == i %}
+                                <li class="page-item-active"><span class="page-link">{{ i }}<span class="sr-only"></span></span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{i}}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+    
+                        {% if mensajes.has_next %}
+                            <li class="page-item"><a href="?page={{costumers.previor_page_number}}" class="page-link"><i class="fas fa-angle-double-right"></i></a></li>
+                            <a href="?page={{costumers.paginator.num_pages}}" class="btn btn-outline-secondary mb-4" style="border-radius: 1px; border: 1px solid #d3d3d3">Ultimo</a>
+                        {% else %}
+                            <li class="page-item disabled"></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </nav>
+        </div>
+        </div>
+
+    <!-- Mensaje si no encuentra registros -->
+    <span class="text-danger" id="msg"></span>
+    <a href="{% url 'inbox'%}" id="refresh"></a>
+{% endblock content %}

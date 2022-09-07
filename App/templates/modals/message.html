@@ -1,0 +1,49 @@
+{% extends 'modals/baseModal.html' %}
+
+<!-- Modal ID -->
+{% block modal-id %} id="messageModal" {% endblock modal-id %}
+
+<!-- Modal Title -->
+{% block modal-title %}
+<i class="fas fa-envelope"></i>&nbsp;&nbsp; Mensaje
+{% endblock modal-title %}
+
+<!-- Modal Width -->
+{% block modal-width %}modal-xl{% endblock modal-width %}
+{% load crispy_forms_tags %}
+<!-- Form -->
+{% block form %}
+
+    <form method="POST" action="send_message" autocomplete="off" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+            <div class="mb-1">
+                <input type="text" class="form-control" name="name" maxlength="50" placeholder="Nombre">
+            </div>
+            <hr>
+            <div class="form-group mb-2">
+                <textarea class="form-control" name="message" id="message" cols="30" rows="4" maxlength="1000" ></textarea>
+            </div> 
+            <!-- Contador de caracteres -->
+            <span id="remaining"></span>
+            <hr>
+            <div class="form-control mb-3">
+                <input type="file" class="form-control" id="file" name="file">
+            </div>
+            <h6 class="text-center" id="note">nota: para más de un uso de archivo:
+                <strong class="text-success">rar</strong> o <strong class="text-success">zip</strong>.
+            </h6>
+            <hr>
+            <div class="d-grid gap-2 mt-3"> 
+                <button class="btn text-light" type="submit" style="background-color: #2e856e;">Enviar mensaje &nbsp;&nbsp;
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock form %}
+
+<!-- Modal Footer -->
+{% block close %}
+
+{% endblock close %}

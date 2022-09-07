@@ -1,0 +1,181 @@
+/* --------------------------
+CONFIGURACIONES INICCIALES
+-----------------------------*/
+html,
+body{
+    margin: 0;
+    max-width: 100%;
+    background-image: url("https://img.freepik.com/vector-gratis/fondo-plano-20-julio-personas-banderas-colombianas_23-2149438202.jpg?w=2000");
+    background-position: center 0px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+/* --------------------------
+NAVBAR
+-----------------------------*/
+.navbar{
+    background-color: #0b8e02;
+}
+#btn-nav{
+    float: right;
+    margin-right: 25px;
+    color: aliceblue;
+    cursor: pointer;
+
+}
+/* --------------------------
+MENSAJE (pulsar)
+-----------------------------*/
+.pulse{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    position: fixed;
+    right: 30px;
+    bottom: 75px;
+    padding: 5px;
+    animation: animate 3s linear infinite;
+}
+@keyframes animate{
+    0%{box-shadow: 0 0 0 0 rgba(1, 152, 117, .7), 0 0 0 0 rgba(1, 152, 117, .7)}
+    40%{box-shadow: 0 0 0 30px rgba(255, 109, 74, 0), 0 0 0 0 rgba(1, 152, 117, .7)}
+    80%{box-shadow: 0 0 0 50px rgba(255, 109, 74, 0), 0 0 0 30px rgba(255, 109, 74, 0)}
+    100%{box-shadow: 0 0 0 0 rgba(255, 109, 74, 0), 0 0 0 30px rgba(255, 109, 74, 0)}
+}
+/* --------------------------
+TYPED JS
+-----------------------------*/
+.block-position{
+    width: 80%;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+/* --------------------------
+LOGIN
+-----------------------------*/
+#card-login{
+    width: 450px;
+}
+.login-border{
+    border-top: .4rem soli #198754;
+    border-bottom: .4rem soli #198754;
+    border-radius: 10px;
+}
+#btn-enter{
+    border-radius: 15px; 
+    font-size: 16px;
+}
+#login-watermark{
+    color: #d3d3d3;
+    font-size: 150px;
+}
+/* -------------------------------
+BOOTSTRAP (CAMBIAR TEMA A VERDE)
+---------------------------------*/
+/* Cambiar el borde a los input */
+.form-control:focus{
+    border-color: green;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+/* Cechbox */
+.form-check-input:checked{
+    background-color: #8abaae;
+    border: green !important;
+    box-shadow: 0 0 8px rgba(1, 152, 117, 0.4) !important;
+}
+.form-check-input{
+    border: green !important;
+    box-shadow: 0 0 8px rgba(1, 152, 117, 0.4) !important;
+}
+/* -------------------------------
+CAMBIAR EL TEMA SWEETALERT
+---------------------------------*/
+/* Todo el texto centrado */
+.swal-text{
+    text-align: center;
+}
+/* Icon settings */
+.swal-icon--success:before,
+.swal-icon--success:after,
+.swal-icon--success__hide-corners{
+    background: none !important;
+}
+.swal-icon--success{
+    /* Color */
+    border-color: #198754;
+}
+.swal-icon--success__line{
+    /* Animación */
+    background-color: #198754;
+}
+/* Boton */
+.swal-button{
+    padding: 7px 19px;
+    border-radius: 5px;
+    background-color: #111;
+    font-size: 12px;
+    border: 1px solid #111;
+}
+.swal-button:focus{
+    box-shadow: none;
+}
+.swal-button:not([disabled]):hover{
+    background: transparent;
+    color: #111;
+    border: 1px solid #111;
+}
+/* -------------------------------
+CAMBIAR ESTILOS AL PAGINATOR
+---------------------------------*/
+.page-item.active .page-link{
+    columns: #fff;
+    background-color: #6c757d;
+    border: 1px soli #6c757d;
+}
+.pagination > li > a{
+    background-color: #fff;
+    color: #6c757d;
+}
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > span > a:focus,
+.pagination > span > a:hover{
+    color: #111;
+    background-color: #d3d3d3;
+    border: 1px solid #6c757d;
+    box-shadow: none;
+}
+/* ----------------------------------
+CAMBIAR ESTILOS MODAL PERSONALIZADA
+-------------------------------------*/
+.btn-modal{
+    width: 70px;
+}
+.btn-action{
+    width: 45px;
+}
+/* ----------------------------------
+ESTILOS DE QUE NO ENCUNTRE REGISTROS
+-------------------------------------*/
+
+
+/* --------------------------
+FOOTER
+-----------------------------*/
+.footer{
+    background-color: #0b8e02;
+}
+.wrapper{
+    min-height: 100%;
+    margin-bottom: -50px;
+}
+#footer,
+.push{
+    height: 50px;
+}

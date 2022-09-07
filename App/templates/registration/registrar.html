@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+<!-- Title -->
+{% block title %}Crear Cuenta{% endblock title %}
+
+<!--  Block Typed-->
+{% comment %} {% block typed %}{% endblock typed %} {% endcomment %}
+
+<!-- Slider -->
+{% block sidebar-content %}
+    <a href="{% url 'inbox' %}" class="btn btn-secondary">Logo</a>
+{% endblock sidebar-content %}
+
+{%load crispy_forms_tags%}
+<!-- Pagina contenido -->
+{% block content %}
+<div class="container mt-5 mb-5">
+    <form method="POST" class="needs-validation" enctype="multipart/form-data" autocomplete="off" novalidate>
+        {%csrf_token%}
+        <div class="card border-dark text-center " style="font-size: 18px;">
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">IDENTIFICACIÓN</span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4">{{ form.perDocumento|as_crispy_field}} </div>
+                    <div class="col-4">{{ form.perNumeroDocumento|as_crispy_field}}</div>
+                    <div class="col-4">{{ form.perNombreCompleto|as_crispy_field}}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">{{ form.perApellidos|as_crispy_field}} </div>
+                    <div class="col-4">{{ form.perSexo|as_crispy_field}}</div>
+
+                </div>
+            </div>
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">CONTACTO</span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4">{{ form.perTelefono|as_crispy_field}} </div>
+                    <div class="col-4">{{ form.perTelefonoFijo|as_crispy_field}}</div>
+                    <div class="col-4">{{ form.perCorreo|as_crispy_field}}</div>
+                </div>
+            </div>
+
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">GEOGRÁFICAS</span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4">{{ form.perMunicipio|as_crispy_field}} </div>
+                    <div class="col-4">{{ form.perDireccion|as_crispy_field}}</div>
+                    <div class="col-4">{{ form.perBarrio|as_crispy_field}}</div>
+                </div>
+            </div>
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">ENFOQUE DIFERENCIAL</span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">{{ form.perFechaNacimiento|as_crispy_field}} </div>
+                    <div class="col-6">{{ form.perEtnia|as_crispy_field}}</div>
+                </div>
+            </div>
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">ENFOQUE POBLACIONAL</span>
+            <div class="container">
+                <div class="tex-center">
+                    {{ form.perCondicionDiscapacidad|as_crispy_field}}
+                </div>
+            </div>
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">SOCIOECONOMICO</span>
+            <div class="container">
+                <div class="d-flex justify-content-center"> 
+                    {{ form.perEstrato|as_crispy_field}}
+                </div>
+            </div>
+
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">ESCOLARIDAD</span>
+            <div class="container">
+                <div class="d-flex justify-content-center"> 
+                    {{ form.perUltimoNivelEducativo|as_crispy_field}}
+                </div>
+            </div>
+
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">ACCESO Y CONECTIVIDAD A MEDIOS TECNOLOGICOS</span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4 mt-3">{{ form.perDispositivo|as_crispy_field}}</div>
+                    <div class="col-4">{{ form.perTipoDispositivo|as_crispy_field}}</div>
+                    <div class="col-4 mt-3">{{ form.perConectividad|as_crispy_field}}</div>
+                </div>
+            </div>
+
+            <span class="m-4 fw-bold" style="background-color: #0B8E02; padding : 0.5em;color: #FFF;">SALUD</span>
+            <div class="container">
+                <div class="d-flex justify-content-center"> 
+                    {{ form.perTipoAfiliacion|as_crispy_field}}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success mb-4 mx-4" style="width: 20%;"> Enviar </button>
+
+        </div>
+    </form>
+</div>
+
+</div>
+<br>
+{% endblock content %}
