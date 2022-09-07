@@ -7,32 +7,35 @@
 
 <!-- Sidebar content -->
 {% block sidebar-content %}
-    <!-- Welcome user -->
-   <p class="text-center"> Bienvenido: <span class="text-success ">{{user.get_username}}</span></p>
-    &nbsp;
-    <a href="{% url 'ciudadano' %}" class="btn btn-secondary">Inicio</a>
-    <a href="{% url 'perfil' %}" class="btn btn-secondary">Perfil</a>
-    <a href="{% url 'sondeos' %}" class="btn btn-secondary">Sondeos disponibles</a>
-    <a href="{% url 'sondeosrealizados' %}" class="btn btn-secondary">Sondeos Realizados</a>
-    <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar Sesion</a>
+<!-- Welcome user -->
+<p class="text-center"> Bienvenido: <span class="text-success ">{{user.get_username}}</span></p>
+&nbsp;
+<a href="{% url 'ciudadano' %}" class="btn btn-secondary">Inicio</a>
+<a href="{% url 'perfil' %}" class="btn btn-secondary">Perfil</a>
+
+<a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar Sesion</a>
 {% endblock sidebar-content %}
 
 <!-- Page content  -->
 {% block content %}
-    &nbsp;
-    <div  class="container-fluid mt-3" style="width: 90%;">
+&nbsp;
+<div class="container-fluid mt-3" style="width: 90%;">
 
-        <div class="container mt-5">
-            <div class="card p-3 login-border">
-                <span class="mt-3 text-center text-pulse"><strong>Modulos</strong></span>
-
-                <div class="row">
-                    <div class="col-5">
-                        <div class="card">
-                            <div class=card-body>
-                                <div class="d-flex justify-content-between">
-                                    <div class="align-self-center">
-                                        <i class="bi bi-envelope-check"></i>
+    <div class="container mt-5">
+        <div class="card p-3 login-border">
+            <span class="mt-3 text-center text-pulse mb-5"><strong>Modulos</strong></span>
+            {% for question in questions %}
+            <a href=" {% url 'sondeos' question.id %} " class="list-group-item list-group-item-action">
+                <h5>{{question.question}}</h5>
+            </a>
+            {% endfor %}
+            {% comment %} <div class="row">
+                <div class="col-5">
+                    <div class="card">
+                        <div class=card-body>
+                            <div class="d-flex justify-content-between">
+                                <div class="align-self-center">
+                                    <i class="bi bi-envelope-check"></i>
                                     <div class="text-end">
                                         <p class="mb-0">Sondeos Realizados</p>
                                     </div>
@@ -55,8 +58,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
-        </div>        
+        </div>
+        <div>
+
+
+        </div>
     </div>
-{% endblock content %}
+    {% endblock content %}

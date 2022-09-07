@@ -12,8 +12,8 @@
     &nbsp;
     <a href="{% url 'ciudadano' %}" class="btn btn-secondary">Inicio</a>
     <a href="{% url 'perfil' %}" class="btn btn-secondary">Perfil</a>
-    <a href="{% url 'sondeos' %}" class="btn btn-secondary"> Sondeos disponibles</a>
-    <a href="{% url 'sondeosrealizados' %}" class="btn btn-secondary">Sondeos Realizados</a>
+    {% comment %} <a href="{% url 'sondeos' %}" class="btn btn-secondary"> Sondeos disponibles</a> {% endcomment %}
+    <a href="{% url 'sondeosrealizados' question.id %}" class="btn btn-secondary">Sondeos Realizados</a>
     <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar Sesion</a>
 {% endblock sidebar-content %}
 
@@ -21,9 +21,17 @@
 {% block content %}
     &nbsp;
     <div  class="container-fluid mt-3" style="width: 90%;">
+ 
+    <h3 style = "margin-bottom: 20px"><strong>Results</strong></h3>
+    <h4>{{question.question}}</h4>
 
-        <div>
-
-        </div>        
+    <ul class="list-group">
+    {% for option in options %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{option.option}}
+        <span class="badge bg-primary rounded-pill">{{option.vote}}%</span>
+        </li>
+    {% endfor %}
+</ul>
     </div>
 {% endblock content %}

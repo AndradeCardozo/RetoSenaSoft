@@ -57,6 +57,8 @@
           <div class="d-grid gap-2">
             {% block sidebar-content %}
                 <a href="{% url 'inbox' %}" class="btn btn-secondary">Inicio</a>
+                <a href="{% url 'iniciarSesion' %}" class="btn btn-secondary">Iniciar Sesion</a>
+                <a href="{% url 'ciudadano' %}" class="btn btn-secondary">Ciudadano</a>
             {% endblock sidebar-content %}
                 <hr><br>
                 <center class="mt-5">
@@ -67,18 +69,19 @@
       </div>
 
     <!-- Footer -->
-    <footer class="footer text-center text-lg-start" id="footer" style="color: #fff">
+    {% comment %} <footer class="footer text-center text-lg-start" id="footer" style="color: #fff">
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
             &copy; {% now "Y" %} Copyrigth: 
             <a class="text-ligth" style="text-decoration: none;" href="">
                 <span style="color: #8abaae">Senasoft</span>
             </a>
         </div>
-    </footer>
+    </footer> {% endcomment %}
 
     <!-- ======= INCLUDE ======= -->
     {% include 'modals/message.html' %}
     {% include 'modals/logout.html' %}
+    {% include 'modals/buscarperfil.html' %}
 
     <!-- Mensajes desde el backend -->
     {% if form.errors %}

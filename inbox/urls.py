@@ -22,33 +22,31 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     #  =======================ADMIN=============================
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     
     # =======================FRONTEND=============================
     
+    path ('iniciarSesion/', views.iniciarSesion, name='iniciarSesion'),
+    path  ('cerrarSesion/', views.cerrarSesion, name='logout'),
     path('', views.home, name='home'),
       # Path enviar mensaje
       
     path('send_message', views.send_message, name='send_message'),
     
     # Registar y iniciar
-    path('login/', include('django.contrib.auth.urls')),
     path('registrar/', views.registrar, name='registrar'), 
     
     # Funciones de usuario
     path('ciudadano/', views.ciudadano, name='ciudadano'),
-    path('perfil/', views.ciudadano, name='perfil'),
-    path('sondeos/', views.ciudadano, name='sondeos'),
-    path('sondeosrealizados/', views.ciudadano, name='sondeosrealizados'),
+    path('perfil/', views.perfil, name='perfil'),
+    path('sondeos/<str:pk>', views.sondeos, name='sondeos'),
+    path('sondeosrealizados/<str:pk>', views.sondeosrealizados, name='sondeosrealizados'),
     
     # =======================BACKEND=============================
   
     path('inbox/', views.inbox, name='inbox'),
 
     path('delete_message/<str:customer_id>', views.delete_message, name='delete_message'),
-    
-   
-    
     
 ] 
 if settings.DEBUG:

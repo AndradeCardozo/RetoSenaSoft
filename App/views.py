@@ -1,5 +1,5 @@
 from cmath import inf
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from App.forms import Mensajesform, PersonaForm
@@ -8,17 +8,42 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.contrib import auth
 from datetime import datetime
+from django.contrib.auth import authenticate 
 
 # Create your views here.
 
 # =======================FRONTEND=============================
 
 # Funcion para ir a la pagina principal (frontend)
+
+def iniciarSesion(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            if user.is_superuser:
+                return redirect('/admin')
+            else:
+                return redirect ('/ciudadano')
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos')
+            return redirect('/iniciarSesion')
+    return render(request, 'registration/login.html')
+
+
+def cerrarSesion (request):
+    auth.logout(request)
+    return redirect('/')
+
 def home(request):
     # form = Costumerform()
     return render(request, 'home.html')
 
+@login_required (login_url='/iniciarSesion/')
 def send_message(request):
     if request.method == "POST":
         form = Mensajesform(request.POST, request.FILES)
@@ -47,24 +72,72 @@ def registrar(request):
     return render(request, 'registration/registrar.html', {'form': form})
 
 # Funciones de usuario
+@login_required (login_url='/iniciarSesion/')
 def ciudadano(request):
-    return render(request, 'ciudadano/principal.html')
+    questions = Encuesta.objects.all()
+    return render(request, 'ciudadano/principal.html', {'questions': questions})
 
-def perfil(request):
-    return render(request, 'ciudadano/perfil.html')
+def buscarPerfil(request, cedula):
+    perfil = Sondeo.objects.get(id=cedula)
+    return HttpResponseRedirect('/perfil', perfil)
 
-def sondeos(request):
-    return render(request, 'ciudadano/enviarSondeo.html')
+
+@login_required (login_url='/iniciarSesion/')
+def perfil(request, pk):
+    persona = Persona.objects.get(id=pk)
+    data={
+        'persona': persona
+    }
+    return render(request, 'ciudadano/perfil.html', data)
+
+@login_required (login_url='/iniciarSesion/')
+def sondeos(request, pk):
+    question = Encuesta.objects.get(id=pk)
+    options = question.choices.all()
+    return render(request, 'ciudadano/enviarSondeo.html',  {'question':question, 'options': options })
     
-def sondeosrealizados(request):
-    return render(request, 'ciudadano/consultarSondeo.html')
+@login_required (login_url='/iniciarSesion/')
+def sondeosrealizados(request, pk):
+    question = Encuesta.objects.get(id=pk)
+    options = question.choices.all()
+    if request.method == 'POST':
+        inputvalue = request.POST['choice']
+        selection_option = options.get(id=inputvalue)
+        selection_option.vote += 5
+        selection_option.save()
+    return render(request, 'ciudadano/consultarSondeo.html', {'question':question, 'options': options })
+
+
+
+# def vote(request,pk):
+#     question = Sondeo.objects.get(id=pk)
+#     options = question.choices.all()
+#     # if request.method == 'POST':
+#     #     inputvalue = request.POST['choice']
+#     #     selection_option = options.get(id=inputvalue)
+#     #     selection_option.vote += 5
+#     #     selection_option.save()
+
+#     return render(request, '', {'question':question, 'options': options })
+
+# def result(request, pk):
+#     question = Sondeo.objects.get(id=pk)
+#     options = question.choices.all()
+#     if request.method == 'POST':
+#         inputvalue = request.POST['choice']
+#         selection_option = options.get(id=inputvalue)
+#         selection_option.vote += 5
+#         selection_option.save()
+#     return render(request, '', {'question': question, 'options': options})
+
 # =======================BACKEND=============================
  
 # Funcion de login
-@login_required(login_url="login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 
 # Funcion para retornar pagina de inbox
+
+@login_required (login_url='/iniciarSesion/')
 def inbox(request):
     if 'q' in request.GET:
         q = request.GET['q']
@@ -100,7 +173,7 @@ def inbox(request):
     return render(request, 'admin/mensajes.html', data)
 
 # Funcion para eliminar
-@login_required(login_url="login")
+@login_required (login_url='/iniciarSesion/')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def delete_message(request, customer_id):
     customer = Mensajes.objects.get(id=customer_id)

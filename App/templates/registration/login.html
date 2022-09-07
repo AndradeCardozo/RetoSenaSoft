@@ -8,23 +8,35 @@
 
 <!-- Slider -->
 {% block sidebar-content %}
-    <a href="{% url 'inbox' %}" class="btn btn-secondary">Logo</a>
+    <a href="{% url 'inbox' %}" class="btn btn-secondary">Iniciar Sesión</a>
 {% endblock sidebar-content %}
 
 <!-- Pagina contenido -->
 {% block content %}
+
+{% if messages %}
+    {% for m  in messages%}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>ERROR!</strong> {{m}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {%endfor%}
+{% endif %}
+
+
     <div class="container mt-5" id="card-login">
         <div class="card p-3 login-border">
             <span class="mt-3 text-center text-pulse"><strong>RESTRINGIDO EL ACCESO</strong></span>
-            <form action="" method="POST" autocomplete="off" novalidate>
+            <form action="/iniciarSesion/" method="POST" autocomplete="off" novalidate>
                 {% csrf_token %}
                 <div class="input-group mb-2 mt-4">
-                    <input type="text" class="form-control" name="username" placeholder="Nombre">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Nombre">
                 </div>
                 <div class="input-group mb-2">
                     <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
                 </div>
                 <div class="form-check form-switch">
+                    
                     <input type="checkbox" class="form-check-input" onclick="myFunction()" style="float: right;">
                 </div>
                 <div class="d-grid gap-2 mt-3">
@@ -38,4 +50,6 @@
         </div>
     </div>
 
+
+    
 {% endblock content %}

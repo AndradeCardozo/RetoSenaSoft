@@ -4,7 +4,6 @@ from .models import *
 # Register your models here
 
 class MensajesAdmin(admin.ModelAdmin):
-    readonly_fields = ['id', 'name', 'message', 'file', 'created_at']
     list_display = ['id', 'name', 'message', 'file', 'created_at']
     search_fields = ['name']
     list_filter = ['estado']
@@ -13,3 +12,5 @@ class MensajesAdmin(admin.ModelAdmin):
 
     
 admin.site.register(Mensajes, MensajesAdmin)
+admin.site.register(Sondeo)
+admin.site.register(Preguntas)
