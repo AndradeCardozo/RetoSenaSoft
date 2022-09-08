@@ -11,7 +11,6 @@
 <p class="text-center"> Bienvenido: <span class="text-success ">{{user.get_username}}</span></p>
 &nbsp;
 <a href="{% url 'ciudadano' %}" class="btn btn-secondary">Inicio</a>
-<a href="{% url 'perfil' %}" class="btn btn-secondary">Perfil</a>
 
 <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar Sesion</a>
 {% endblock sidebar-content %}
@@ -29,36 +28,7 @@
                 <h5>{{question.question}}</h5>
             </a>
             {% endfor %}
-            {% comment %} <div class="row">
-                <div class="col-5">
-                    <div class="card">
-                        <div class=card-body>
-                            <div class="d-flex justify-content-between">
-                                <div class="align-self-center">
-                                    <i class="bi bi-envelope-check"></i>
-                                    <div class="text-end">
-                                        <p class="mb-0">Sondeos Realizados</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-5">
-                        <div class="card">
-                            <div class=card-body>
-                                <div class="d-flex justify-content-between">
-                                    <div class="align-self-center">
-                                        <i class="bi bi-envelope-open"></i>
-                                    </div>
-                                    <div class="text-end">
-                                        <p class="mb-0">Sondeos disponibles</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> {% endcomment %}
             </div>
         </div>
         <div>

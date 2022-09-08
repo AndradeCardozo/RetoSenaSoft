@@ -11,9 +11,7 @@
    <p class="text-center"> Bienvenido: <span class="text-success ">{{user.get_username}}</span></p>
     &nbsp;
     <a href="{% url 'ciudadano' %}" class="btn btn-secondary">Inicio</a>
-    <a href="{% url 'perfil' %}" class="btn btn-secondary">Perfil</a>
-    {% comment %} <a href="{% url 'sondeos' %}" class="btn btn-secondary"> Sondeos disponibles</a> {% endcomment %}
-    <a href="{% url 'sondeosrealizados' question.id %}" class="btn btn-secondary">Sondeos Realizados</a>
+    <!--  -->
     <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar Sesion</a>
 {% endblock sidebar-content %}
 
@@ -23,27 +21,39 @@
     <div  class="container-fluid mt-3" style="width: 90%;">
 
         
-    <h3 style = "margin-bottom: 20px"><strong>Seleccione su respuesta</strong></h3>
-
-    <h4>{{question.question}}</h4>
-
-    <form method="POST" action=" {% url 'sondeosrealizados' question.id %} ">
-        {% csrf_token %}
-        <ul class="list-group" style="margin:0px">
-        {% for option in options %}
-        
-        <label>
-            <li class="list-group-item">
-                <input class="form-check-input me-1" type="radio" name = 'choice' value="{{option.id}}" aria-label="...">
-                {{option.option}}
-            </li>
-        </label>
-        {% endfor %}
+    <h3 style = "margin-bottom: 20px"><strong>Juntos somos mas</strong></h3>
 
     
-        </ul>
-        <input type="submit" value = "Submit" class = 'btn btn-primary'>
-    </form>
+<div>
+    <!-- <h2 class="text-center">Encuesta {{vario.sonTitulo}}</h2> -->
+    <ul class="list-group" style="margin:0px">
+        <h4>{{question.question}}</h4>
+    {% for option in valores %}
+    <h4 class="text-center">Sondeo: {{option.sonTitulo}}</h4>
+    <label>
+        <li class="list-group-item">
+           {% for encuesta in developers %}
+                <p style="font-size: 20px;">{{encuesta}}</p>
+                <form method="POST" action="/actualizar/{{encuesta.id}}" novalidate>
+                    {%load crispy_forms_tags%}
+                    {% csrf_token %}
+                        <div class="row">
+                            <!-- <input type="hidden">{{pregunta.question}} -->
+                            <div class="col-2">{{ form.question |as_crispy_field}}</div>
+                            <div class="col-2">{{ form.option |as_crispy_field}}</div>
+                            <div class="col-2">{{ form.resultado |as_crispy_field}}</div>
+                        </div>
+                        <input type="submit" value = "Enviar" class = 'btn btn-primary'>
+                </form>
+                <hr>
+           {% endfor %}
+        </li>
+    </label>
+    <br>
+    {% endfor %}
+    </ul>
+    
+</div>
 
     </div>
 {% endblock content %}

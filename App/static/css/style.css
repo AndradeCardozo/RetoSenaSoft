@@ -5,7 +5,6 @@ html,
 body{
     margin: 0;
     max-width: 100%;
-    /* background-image: url("https://img.freepik.com/vector-gratis/fondo-plano-20-julio-personas-banderas-colombianas_23-2149438202.jpg?w=2000"); */
     background-position: center 0px;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -173,9 +172,17 @@ FOOTER
 }
 .wrapper{
     min-height: 100%;
-    margin-bottom: -50px;
 }
 #footer,
 .push{
     height: 50px;
 }
+
+body::-webkit-scrollbar {
+    width: 9px;
+    letter-spacing: 20px;
+  }
+  
+  body::-webkit-scrollbar-thumb{
+    background: rgb(221, 235, 29); 
+  }

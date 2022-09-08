@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "django_cleanup",
+    'django_matplotlib',
     'App'
+    
 ]
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage" 
@@ -50,6 +52,10 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'App.UsuarioPerzonalizado'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

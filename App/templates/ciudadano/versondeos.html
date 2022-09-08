@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+<!-- Block image -->
+{% block image %}{% endblock image %}
+
+
+
+<!-- Sidebar content -->
+{% block sidebar-content %}
+    <!-- Welcome user -->
+   <p class="text-center"> Bienvenido: <span class="text-success ">{{user.get_username}}</span></p>
+    &nbsp;
+    <a href="{% url 'ciudadano' %}" class="btn btn-secondary">Inicio</a>
+    {% comment %} <a href="{% url 'perfil' %}" class="btn btn-secondary">Perfil</a> {% endcomment %}
+    {% comment %} <a href="{% url 'sondeos' %}" class="btn btn-secondary"> Sondeos disponibles</a> {% endcomment %}
+    {% comment %} <a href="{% url 'sondeosrealizados' question.id %}" class="btn btn-secondary">Sondeos Realizados</a> {% endcomment %}
+    <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar Sesion</a>
+{% endblock sidebar-content %}
+
+<!-- Page content  -->
+{% block content %}
+    &nbsp;
+    <div  class="container-fluid mt-3" style="width: 90%;">
+ 
+    <h3 style = "margin-bottom: 20px"><strong>Results</strong></h3>
+    <h4>{{question.question}}</h4>
+
+  
+    <div class="card">
+        <div class="col-lg-12 hide" >
+            <div>
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th style="width: 10%">#</th>
+                            <th style="width: 30%">Encuesta</th>
+                            <th style="width: 18%">Fecha Apertura</th>
+                            <th style="width: 18%">Fecha Cierre</th>
+                            <th style="width: 8%; text-align: center;" colspan="1">acción</th>
+                        </tr>
+                    </thead>
+                    <!-- Data del backend -->
+                    <tbody>
+                        {% for question in questions %}
+                            <tr id="chk_td">
+                                <td>{{question.id}}</td>
+                                <td>{{ question.sonTitulo}}</td>
+                                <td>{{ question.sonFechaApertura | date:'m/d/y' }}</td>
+                                <td>{{ question.sonFechaCierre | date:'m/d/y' }}</td>
+
+                                <!-- {% if mensaje.estado == 'Pending'%}
+                                    <td class="text-danger">{{mensaje.estado}}</td>
+                                {% else %}
+                                    <td class="text-success">{{mensaje.estado}}</td>
+                                {% endif %} -->
+                                <td>
+                                    <button class="btn text-light btn-sm btn-action" title="leer mensaje" style="background-color: #2e856e">
+                                        <a href="{% url 'sondeos' question.id %}"><i class="fas fa-envelope"></i></a>
+                                    </button>
+                                </td>
+                            </tr>
+                             
+                            <!-- MODAL PARA ELIMINAR REGISTRO -->
+                            {% include 'modals/delete.html' %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <nav>
+            {% if mensajes.has_other_pages %}
+                <ul class="pagination">
+                    {% if mensajes.has_previous %}
+                        <a href="?page=1" class="btn btn-outline-secondary mb-4" style="border-radius: 1px; border: 1px solid #d3d3d3">Primero</a>
+                        <li class="page-item"><a href="?page={{costumers.previor_page_number}}" class="page-link"><i class="fas fa-angle-double-left"></i></a></li>
+                    {% else %}
+                        <li class="page-item disabled"></li>
+                    {% endif %}
+
+                    {% for i in mensajes.paginator.page_range %}
+                        {% if mensajes.number == i %}
+                            <li class="page-item-active"><span class="page-link">{{ i }}<span class="sr-only"></span></span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{i}}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if mensajes.has_next %}
+                        <li class="page-item"><a href="?page={{costumers.previor_page_number}}" class="page-link"><i class="fas fa-angle-double-right"></i></a></li>
+                        <a href="?page={{costumers.paginator.num_pages}}" class="btn btn-outline-secondary mb-4" style="border-radius: 1px; border: 1px solid #d3d3d3">Ultimo</a>
+                    {% else %}
+                        <li class="page-item disabled"></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </nav>
+    </div>
+</ul>
+    </div>
+{% endblock content %}

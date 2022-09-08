@@ -8,7 +8,7 @@
 
 <!-- Slider -->
 {% block sidebar-content %}
-    <a href="{% url 'inbox' %}" class="btn btn-secondary">Iniciar Sesión</a>
+    <a href="{% url 'iniciarSesion' %}" class="btn btn-secondary">Iniciar Sesión</a>
 {% endblock sidebar-content %}
 
 <!-- Pagina contenido -->
@@ -16,10 +16,17 @@
 
 {% if messages %}
     {% for m  in messages%}
+    {% if m.tags == 'error' %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong>ERROR!</strong> {{m}}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong>ERROR!</strong> {{m}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    {%else%}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>GENIAL!</strong> {{m}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {%endif%}
     {%endfor%}
 {% endif %}
 

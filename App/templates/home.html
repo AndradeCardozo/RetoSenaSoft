@@ -5,11 +5,80 @@
 
 <!-- Page content  -->
 {% block content %}
-    <div class="block-position">
-        <h1 class="text-light typed-text"> Hola
-            <span id="element" style="color: #8abaae"></span>
+    <div class="container animacion-principal mt-5">
+        <h1 class="text-light typed-text text-center"> ¡Hola!,
+            <span id="element" style="color: #f12"></span>
         </h1>
+        <div class="container animacion-principal" >
+            <h3 class="mt-4 text-center text-light" >Nos encanta conocer tu opinion<br>
+                frente a las <span class="fw-bold" style="color: rgb(201, 3, 16)" >  PROBLEMATICAS </span> y brindar <span class="fw-bold colorPrincipal" style="color: rgb(201, 3, 16)" >  SOLUCIONES </span></h3>
+        </div>
+
+        <div class="container animacion-principal" >
+            <div id="chart">
+            </div>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <style>
+       
+
+        #chart {
+            max-width: 950px;
+            margin: 65px auto;
+            background-color: white;
+          }
+          
+    </style>
+    <script>
+        var options = {
+            series: [{
+            name: 'ENCUESTA TECNOLOGICA',
+            data: [44, 55, 41, 67, 22, 43, 21, 49]
+          }, {
+            name: 'ENCUESTA ECOLOGICA',
+            data: [13, 23, 20, 8, 13, 27, 33, 12]
+          }, {
+            name: 'PRODUCT PRODUCTIVA',
+            data: [11, 17, 15, 15, 21, 14, 15, 13]
+          }],
+            chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+            stackType: '100%'
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
+          xaxis: {
+            categories: ['Persona #321', 'Persona #182', 'Persona #83', 'Persona #81', 'Persona #198', 'Persona #1831',
+              'Persona #21', 'Persona #223'
+            ],
+          },
+          fill: {
+            opacity: 1
+          },
+          legend: {
+            position: 'right',
+            offsetX: 0,
+            offsetY: 50
+          },
+          };
+          
+          var chart = new ApexCharts(document.querySelector("#chart"), options);
+          
+          chart.render();
+    </script>
+
 
     <!-- Mesajes -->
     <div>
@@ -17,4 +86,7 @@
             <i class="fas fa-envelope fa-2x"></i>
         </button>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    
 {% endblock content %}

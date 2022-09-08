@@ -2,7 +2,7 @@ from cmath import inf
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
-from App.forms import Mensajesform, PersonaForm
+from App.forms import Mensajesform, PreguntasForm, UserRegistrationForm
 from App.models import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -10,7 +10,13 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib import auth
 from datetime import datetime
-from django.contrib.auth import authenticate 
+from django.contrib.auth import authenticate
+
+from .utils import render_to_pdf
+from django.http import HttpResponse
+#
+from django.views.generic import View
+
 
 # Create your views here.
 
@@ -61,15 +67,18 @@ def send_message(request):
 # Registrarse
 def registrar(request):
     if request.method == 'POST':
-        form = PersonaForm(request.POST)
+        form = UserRegistrationForm(request.POST) 
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect ('/')
+            messages.success(request, "Ususario registrado correctamente" )
+            return HttpResponseRedirect ('/iniciarSesion')
         else:
-            return render (request, 'inicio.html', {'form': form})
+            messages.error(request, 'Error al registrar usuario')
+            return render (request, 'registration/registrar.html', {'form': form})
     else:
-        form = PersonaForm()
-    return render(request, 'registration/registrar.html', {'form': form})
+        form = UserRegistrationForm()
+    return render(request, 'registration/registrar.html', {'form': form ,})
+
 
 # Funciones de usuario
 @login_required (login_url='/iniciarSesion/')
@@ -82,19 +91,74 @@ def buscarPerfil(request, cedula):
     return HttpResponseRedirect('/perfil', perfil)
 
 
-@login_required (login_url='/iniciarSesion/')
-def perfil(request, pk):
-    persona = Persona.objects.get(id=pk)
-    data={
-        'persona': persona
-    }
-    return render(request, 'ciudadano/perfil.html', data)
+# @login_required (login_url='/iniciarSesion/')
+
+
 
 @login_required (login_url='/iniciarSesion/')
-def sondeos(request, pk):
-    question = Encuesta.objects.get(id=pk)
-    options = question.choices.all()
-    return render(request, 'ciudadano/enviarSondeo.html',  {'question':question, 'options': options })
+def encuesta(request):
+    questions = Sondeo.objects.all()
+    return render(request, 'ciudadano/versondeos.html', {'questions':questions})
+
+def perfil(request):    
+    return render(request, 'ciudadano/perfil.html')
+
+def actualizar(request, pk):
+    casa = Encuesta.objects.get(id=pk)
+    if request.method == "POST":
+        form = PreguntasForm(request.POST, instance=casa)
+        if form.is_valid(): 
+            form.save()
+            pdf = render_to_pdf('pdf/lista.html')
+            return HttpResponse(pdf, content_type='application/pdf')
+        else:
+            form = PreguntasForm()
+            # return render(request, 'home.html', {'form': form})
+    else:
+        form = PreguntasForm()
+        
+    return HttpResponseRedirect('/encuesta', form)
+
+@login_required (login_url='/iniciarSesion/')
+def preguntas(request, pk):
+    projects = Sondeo.objects.filter(encuesta= pk)
+    valores = []
+    i = 0
+    for project in projects: 
+        developers = project.encuesta.all()
+        valores.append(project)
+        print(valores)
+        print(developers)
+        print(projects)
+        print(project)
+        print(i)
+        
+
+        form = PreguntasForm()
+            
+
+            
+            
+    data={
+        'valores':valores,
+        'developers':developers,
+        'form': form,
+    }
+    return render(request, 'ciudadano/enviarSondeo.html',data)
+    
+def enviarEncuesta(request):  
+    # if request.method == "POST":
+    #     form = PreguntasForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #         messages.success(request, 'Mensaje enviado')
+    #         return HttpResponseRedirect('/')
+    #     else:
+    #         print("hola")
+    #         return render(request, 'home.html', {'form': form})
+    # else:
+    #     form = PreguntasForm()
+    return HttpResponseRedirect('/home')
     
 @login_required (login_url='/iniciarSesion/')
 def sondeosrealizados(request, pk):
@@ -108,27 +172,6 @@ def sondeosrealizados(request, pk):
     return render(request, 'ciudadano/consultarSondeo.html', {'question':question, 'options': options })
 
 
-
-# def vote(request,pk):
-#     question = Sondeo.objects.get(id=pk)
-#     options = question.choices.all()
-#     # if request.method == 'POST':
-#     #     inputvalue = request.POST['choice']
-#     #     selection_option = options.get(id=inputvalue)
-#     #     selection_option.vote += 5
-#     #     selection_option.save()
-
-#     return render(request, '', {'question':question, 'options': options })
-
-# def result(request, pk):
-#     question = Sondeo.objects.get(id=pk)
-#     options = question.choices.all()
-#     if request.method == 'POST':
-#         inputvalue = request.POST['choice']
-#         selection_option = options.get(id=inputvalue)
-#         selection_option.vote += 5
-#         selection_option.save()
-#     return render(request, '', {'question': question, 'options': options})
 
 # =======================BACKEND=============================
  
@@ -180,3 +223,14 @@ def delete_message(request, customer_id):
     customer.delete()
     messages.success(request, 'Registro eliminado')
     return HttpResponseRedirect('/inbox')
+
+
+# class ListEmpleadosPdf(View):
+#     def get(self, request, *args, **kwargs):
+#         empleados = UsuarioPerzonalizado.objects.all()
+#         data = {
+#             'count': empleados.count(),
+#             'empleados': empleados
+#         }
+#         pdf = render_to_pdf('home/lista.html', data)
+#         return HttpResponse(pdf, content_type='application/pdf')

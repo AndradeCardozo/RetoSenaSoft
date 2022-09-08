@@ -1,4 +1,4 @@
-{% extends 'modals/baseModal.html' %}
+{% comment %} {% extends 'modals/baseModal.html' %}
 
 <!-- Modal ID -->
 {% block modal-id %} id="buscarPerfil" {% endblock modal-id %}
@@ -21,4 +21,4 @@
 <!-- Modal Footer -->
 {% block modal-footer %}
 <a href="{% url 'perfil' %}" class="btn btn-outline-success btn-sm btn-modal">Buscar</a>
-{% endblock modal-footer %}
+{% endblock modal-footer %} {% endcomment %}

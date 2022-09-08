@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from App import views
-# from inbox import settings
+from App import views# from inbox import settings
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -39,11 +38,13 @@ urlpatterns = [
     # Funciones de usuario
     path('ciudadano/', views.ciudadano, name='ciudadano'),
     path('perfil/', views.perfil, name='perfil'),
-    path('sondeos/<str:pk>', views.sondeos, name='sondeos'),
+    path('sondeos/<str:pk>', views.preguntas, name='sondeos'),
     path('sondeosrealizados/<str:pk>', views.sondeosrealizados, name='sondeosrealizados'),
+    path('encuesta/', views.encuesta, name='encuesta'),
     
+    path('enviarEncuesta', views.enviarEncuesta, name='enviarEncuesta'),
     # =======================BACKEND=============================
-  
+    path('actualizar/<str:pk>', views.actualizar, name='actualizar'),
     path('inbox/', views.inbox, name='inbox'),
 
     path('delete_message/<str:customer_id>', views.delete_message, name='delete_message'),
